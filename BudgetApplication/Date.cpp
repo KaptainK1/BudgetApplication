@@ -1,0 +1,123 @@
+#include "Date.h"
+#include <ctime>
+#include <iostream>
+
+ Date::Date() {
+	 //create a time object and set to now
+	 time_t now = time(0);
+	 //create a tm struct and set it to the current local time
+	 //tm* ltm = localtime(&now);
+	 struct tm ltm;
+	 localtime_s(&ltm, &now);
+
+	 setYear(ltm.tm_year + 1900);
+	 setMonth(ltm.tm_mon);
+	 setDay(ltm.tm_mday);
+}
+
+ //constructor that takes year, month and day
+ Date::Date(int year, int month, int day) {
+	 setYear(year);
+	 setMonth(month);
+	 setDay(day);
+ }
+
+ //getters
+ int Date::getDay() const{
+	 return day;
+ }
+
+ int Date::getYear() const{
+	 return year;
+ }
+
+ int Date::getMonth() const{
+	 return month;
+ }
+
+ //setters
+ void Date::setDay(int day) {
+
+	 if (day > daysInMonth[this->month])
+	 {
+		 throw "Number of Days exceeds the calendar limit for: ";
+	 }
+
+	 this->day = day;
+
+ }
+
+ void Date::setMonth(int month) {
+
+	 if (month > 11 || month < 0)
+	 {
+		 throw "Months must be between 0 and 11";
+	 }
+
+	 this->month = month;
+
+ }
+
+ void Date::setYear(int year) {
+
+	 if (year < 999 || year > 10000)
+	 {
+		 throw "Year must be a 4 digit number";
+	 }
+
+	 this->year = year;
+ }
+
+ //overloaded operator for less than
+ bool Date::operator < (const Date& date) {
+
+	 if (getYear() < date.year)
+	 {
+		 return false;
+	 }
+	 else if (getYear() == date.year && getMonth() < date.month) {
+		 return false;
+	 }
+	 else if (getYear() == date.year && getMonth() == date.month && getDay() < date.day) {
+		 return false;
+	 }
+
+	 return true;
+ }
+
+ //overloaded operator for greater than
+ bool Date::operator > (const Date& date) {
+
+	 if (getYear() > date.year)
+	 {
+		 return false;
+	 }
+	 else if (getYear() == date.year && getMonth() > date.month) {
+		 return false;
+	 }
+	 else if (getYear() == date.year && getMonth() == date.month && getDay() > date.day) {
+		 return false;
+	 }
+
+	 return true;
+
+ }
+
+ //overloaded operator for =
+ bool Date::operator = (const Date& date) {
+
+	 if (getYear() == date.year && getMonth() == date.month && getDay() == date.day) {
+		 return true;
+	 }
+
+	 return false;
+
+ }
+
+ //overloaded cout operator
+ std::ostream& operator << (std::ostream& stream, const Date& date) {
+
+	 stream << date.month+1 << "/" << date.day << "/" << date.year;
+	 return stream;
+
+ }
