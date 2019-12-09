@@ -16,7 +16,7 @@ void TransactionTable::createTableIfNotExists() {
 	connection = mysql_init(0);
 	connection = getConnection();
 
-	std::string query = "CREATE TABLE IF NOT EXISTS TRANSACTIONS (ID int primary key auto_increment, TITLE varchar(100) not null, AMOUNT decimal(10,2) not null, PURCHASE_DATE date not null, ISCREDIT boolean not null, USER_ID int not null, Category_ID int not null, foreign key (USER_ID) references USERS(ID), foreign key (Category_ID) references Categorys(ID));";
+	std::string query = "CREATE TABLE IF NOT EXISTS TRANSACTIONS (ID int primary key, TITLE varchar(100) not null, AMOUNT decimal(10,2) not null, PURCHASE_DATE date not null, ISCREDIT boolean not null, USER_ID int not null, Category_ID int not null, foreign key (USER_ID) references USERS(ID), foreign key (Category_ID) references Categorys(ID));";
 	const char* q = query.c_str();
 	qstate = mysql_query(connection, q);
 

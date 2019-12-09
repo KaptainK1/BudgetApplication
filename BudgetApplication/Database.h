@@ -22,6 +22,9 @@ public:
 
 	virtual void select();
 
+	int getNextID(std::string table);
+	void setCurrentID(int& id, std::string table);
+
 	//getters
 	std::string getDBHost();
 	std::string getDBPassword();

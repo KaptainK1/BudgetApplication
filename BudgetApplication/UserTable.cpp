@@ -1,11 +1,24 @@
 #include <mysql.h>
 #include <string>
 #include"UserTable.h"
+#include "Database.h"
 #include <iostream>
 
+UserTable::UserTable()
+	: Database("localhost", "root", "password", "budget_application_db", 3306)
+{
+	std::cout << "UserTable default constructor called!"<< std::endl;
+	//CURRENT_ID++;
+}
 
-UserTable::UserTable(std::string db_host, std::string db_user, std::string db_password, std::string db_schema, int port) :
-	Database(db_host, db_user, db_password, db_schema, port) {}
+UserTable::UserTable(std::string db_host = "localhost", std::string db_user = "root", 
+	std::string db_password ="password", std::string db_schema = "budget_application_db", int port = 3306)
+	: Database(db_host, db_user, db_password, db_schema, port) 
+
+{
+	std::cout << "UserTable constructor called!" << std::endl;
+	//CURRENT_ID++;
+}
 
 void UserTable::createTableIfNotExists() {
 
@@ -16,7 +29,7 @@ void UserTable::createTableIfNotExists() {
 	connection = mysql_init(0);
 	connection = getConnection();
 
-	std::string query = "CREATE TABLE IF NOT EXISTS USERS (ID int primary key auto_increment, USERNAME varchar(50) not null, PASSWORD varchar(50) not null, BUDGET_LIMIT decimal(10,2) not null, BUDGET_SPENT decimal(10,2) not null);";
+	std::string query = "CREATE TABLE IF NOT EXISTS USERS (ID int primary key, USERNAME varchar(50) not null, PASSWORD varchar(50) not null, BUDGET_LIMIT decimal(10,2) not null, BUDGET_SPENT decimal(10,2) not null);";
 	const char* q = query.c_str();
 	qstate = mysql_query(connection, q);
 
@@ -63,4 +76,8 @@ void UserTable::select() {
 
 	mysql_close(connection);
 
+}
+
+std::string UserTable::getTableName() const{
+	return table_name;
 }

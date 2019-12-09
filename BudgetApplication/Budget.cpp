@@ -25,6 +25,12 @@ Budget::Budget(double limit, std::vector<Category> categories, double spent) {
 	setTotalSpent(spent);
 }
 
+Budget::Budget(double limit, double spent) {
+	setTotalLimit(limit);
+	setTotalSpent(spent);
+	createCategories();
+}
+
 
 //get the total limit as double
 double Budget::getTotalLimit() {
@@ -115,12 +121,18 @@ void Budget::addTransaction(Category& category, std::string& name, Date& date, b
 	Transaction transaction(name, date, isCredit, amount);
 	category.addTransaction(transaction);
 
+	//add the transaction amount to the total spent budget variable. 
+	this->addToSpentAndCheckIfOverSpent(transaction.getTransactionAmount());
+
 }
 
 //method to add a transaction to the transaction vector for the referenced category class
 void Budget::addTransaction(Category& category, Transaction& t) {
 
 	category.addTransaction(t);
+
+	//add the transaction amount to the total spent budget variable. 
+	this->addToSpentAndCheckIfOverSpent(t.getTransactionAmount());
 
 }
 
@@ -136,6 +148,22 @@ void Budget::printCategories() {
 	for (Category category : categories) {
 		std::cout << category;
 		category.printTransactions();
+	}
+
+}
+
+//method to add to the total spent variable
+//method also updates the is at or under budget boolean
+void Budget::addToSpentAndCheckIfOverSpent(const double& amount) {
+
+	this->totalSpent += amount;
+
+	if (this->totalSpent <= this->totalLimit)
+	{
+		this->isAtOrUnderBudget = true;
+	}
+	else {
+		this->isAtOrUnderBudget = false;
 	}
 
 }

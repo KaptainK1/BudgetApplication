@@ -18,6 +18,7 @@ public:
 	//constructors
 	Budget();
 	Budget(double limit, std::vector<Category> categories, double spent);
+	Budget(double limit, double spent);
 
 	//getters
 	double getTotalLimit();
@@ -37,6 +38,7 @@ public:
 	void addCategory(const Category& category);
 	void addTransaction(Category& category, std::string& name, Date& date, bool& isCredit, double& amount);
 	void addTransaction(Category& category, Transaction& t);
+	void addToSpentAndCheckIfOverSpent(const double& amount);
 	void createCategories();
 	void printCategories();
 	Category& getCategory(int index);

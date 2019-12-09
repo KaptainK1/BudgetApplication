@@ -1,0 +1,35 @@
+root
+password
+
+create a schema as budget_application_db
+
+use budget_application_db;
+
+create table USERS(
+ID int primary key,
+USERNAME varchar(50) not null,
+PASSWORD varchar(50) not null,
+BUDGET_LIMIT decimal(10,2) not null,
+BUDGET_SPENT decimal(10,2) not null
+);
+
+create table CATEGORYS(
+ID int primary key,
+TITLE varchar(100) not null,
+AMOUNT_SPENT decimal(10,2) not null,
+AMOUNT_LIMIT decimal(10,2) not null,
+USER_ID int not null,
+foreign key (USER_ID) references USERS(ID)
+);
+
+create table TRANSACTIONS(
+ID int primary key,
+TITLE varchar(100) not null,
+AMOUNT decimal(10,2) not null,
+PURCHASE_DATE date not null,
+ISCREDIT boolean default false,
+USER_ID int not null,
+CATEGORY_ID int not null,
+foreign key (USER_ID) references USERS(ID),
+foreign key (CATEGORY_ID) references CATEGORYS(ID)
+);

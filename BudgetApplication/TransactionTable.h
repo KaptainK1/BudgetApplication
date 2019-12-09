@@ -14,5 +14,4 @@ public:
 
 	virtual void createTableIfNotExists();
 	virtual void select();
-
 };

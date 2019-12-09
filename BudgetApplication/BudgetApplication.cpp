@@ -22,18 +22,17 @@ using namespace std;
 
 int main()
 {
-
+	/*
 	Database *db = new UserTable("localhost", "root", "password", "budget_application_db", 3306);
 	Database *dbC = new CategoryTable("localhost", "root", "password", "budget_application_db", 3306);
 	Database *dbT = new TransactionTable("localhost", "root", "password", "budget_application_db", 3306);
-//	db->createTableIfNotExists();
-//	dbC->createTableIfNotExists();
-//	dbT->createTableIfNotExists();
+	db->createTableIfNotExists();
+	dbC->createTableIfNotExists();
+	dbT->createTableIfNotExists();
 
-	db->select();
-	dbC->select();
-	dbT->select();
-	
+	User user;
+	user.getCurrentID();
+	*/
 
 
 	/*
@@ -76,7 +75,7 @@ int main()
 
 	*/
 
-	/*
+	
 	Date date1;
 	Date date2(2001, 1, 27);
 	
@@ -84,13 +83,16 @@ int main()
 	cout << test << endl;
 	cout << date1 << endl;
 	cout << date2 << endl;
-
+	UserTable* db = new UserTable("localhost", "root", "password", "budget_application_db", 3306);
+	Budget dylBudget;
+	User mainUser("Dylan", "password", dylBudget, db );
 	User user;
 	Transaction t("test",date1,false,25.00);
 	user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
 	user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
 	user.getBudget().printCategories();
-	*/
+	cout << user.getBudget().getTotalSpent();
+	
 
 	return 0;
 }
