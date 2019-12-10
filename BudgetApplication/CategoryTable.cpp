@@ -4,6 +4,12 @@
 #include <iostream>
 
 
+CategoryTable::CategoryTable()
+	: Database("localhost", "root", "password", "budget_application_db", 3306)
+{
+	std::cout << "CategoryTable default constructor called!" << std::endl;
+}
+
 CategoryTable::CategoryTable(std::string db_host, std::string db_user, std::string db_password, std::string db_schema, int port) :
 	Database(db_host, db_user, db_password, db_schema, port) {}
 
@@ -63,4 +69,8 @@ void CategoryTable::select() {
 
 	mysql_close(connection);
 
+}
+
+std::string CategoryTable::getTableName() const {
+	return table_name;
 }

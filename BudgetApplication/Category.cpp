@@ -7,9 +7,16 @@
 #include <stdexcept>
 #include <vector>
 
+
+Category::~Category() {
+	delete table;
+}
+
 //default constructor
 Category::Category() {
-
+	table = new CategoryTable;
+	table->setCurrentID(CATEGORY_CURRENT_ID, table->getTableName());
+	setID(CATEGORY_CURRENT_ID);
 	std::vector<Transaction> transactions;
 	
 	setName(CATEGORY_NAMES[0]);
@@ -22,6 +29,9 @@ Category::Category() {
 
 //constructor that only takes the name
 Category::Category(std::string name) {
+	table = new CategoryTable;
+	table->setCurrentID(CATEGORY_CURRENT_ID, table->getTableName());
+	setID(CATEGORY_CURRENT_ID);
 
 	setName(name);
 	setLimit(1000.00);
@@ -32,7 +42,11 @@ Category::Category(std::string name) {
 }
 
 //constructor that takes all arguments except is over spent bool
-Category::Category(std::string name, double limit, double spent, std::vector<Transaction> transactions) {
+Category::Category(std::string name, double limit, double spent, std::vector<Transaction> transactions, CategoryTable* t) {
+
+	table = t;
+	table->setCurrentID(CATEGORY_CURRENT_ID, table->getTableName());
+	setID(CATEGORY_CURRENT_ID);
 
 	setName(name);
 	setLimit(limit);
@@ -142,4 +156,19 @@ void Category::printTransactions() {
 	}
 
 
+}
+
+void Category::setID(int id) {
+
+	if (id > 0)
+	{
+		this->id = id;
+	}
+	else {
+		throw "ID must be greater than 0";
+	}
+}
+
+int Category::getID() const {
+	return id;
 }

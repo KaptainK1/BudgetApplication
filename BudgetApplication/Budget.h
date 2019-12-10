@@ -35,8 +35,8 @@ public:
 	void setIsAtOrUnderBudget(const bool& isAtOrUnderBudget);
 
 	//helpers
-	void addCategory(const Category& category);
-	void addTransaction(Category& category, std::string& name, Date& date, bool& isCredit, double& amount);
+	void addCategory( Category& category);
+	void addTransaction(Category& category, std::string& name, Date& date, bool& isCredit, double& amount, TransactionTable* t);
 	void addTransaction(Category& category, Transaction& t);
 	void addToSpentAndCheckIfOverSpent(const double& amount);
 	void createCategories();

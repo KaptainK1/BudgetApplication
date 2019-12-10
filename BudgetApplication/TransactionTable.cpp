@@ -3,6 +3,11 @@
 #include"TransactionTable.h"
 #include <iostream>
 
+TransactionTable::TransactionTable()
+	: Database("localhost", "root", "password", "budget_application_db", 3306)
+{
+	std::cout << "UserTable default constructor called!" << std::endl;
+}
 
 TransactionTable::TransactionTable(std::string db_host, std::string db_user, std::string db_password, std::string db_schema, int port) :
 	Database(db_host, db_user, db_password, db_schema, port) {}
@@ -63,4 +68,8 @@ void TransactionTable::select() {
 
 	mysql_close(connection);
 
+}
+
+std::string TransactionTable::getTableName() const {
+	return table_name;
 }

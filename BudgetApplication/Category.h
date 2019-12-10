@@ -2,6 +2,7 @@
 #include <string>
 #include "Transaction.h"
 #include <vector>
+#include "CategoryTable.h"
 
 //static list of categories
 const static std::string CATEGORY_NAMES[9] = { "Auto/Transport", "Utilities", "Education" , "Entertainment", "Food/Dining", 
@@ -10,16 +11,19 @@ const static std::string CATEGORY_NAMES[9] = { "Auto/Transport", "Utilities", "E
 class Category {
 	//members
 private:
+	CategoryTable* table;
 	std::string name;
 	double limit;
 	double spent;
 	std::vector<Transaction> transactions;
 	bool isOverSpent;
+	int id;
 
 public:
 	//constructors
+	~Category();
 	Category();
-	Category(std::string name, double limit, double spent, std::vector<Transaction> transactions);
+	Category(std::string name, double limit, double spent, std::vector<Transaction> transactions, CategoryTable* t);
 	Category(std::string name);
 
 	//getters
@@ -28,6 +32,7 @@ public:
 	double getSpent() const;
 	std::vector<Transaction> getTransactions() const;
 	bool getIsOverSpent() const;
+	int getID() const;
 
 	//setters
 	void setIsOverSpent();
@@ -36,6 +41,7 @@ public:
 	void setLimit(const double& limit);
 	void setSpent(const double& spent);
 	void setTransactions(const std::vector<Transaction>& transactions);
+	void setID(int id);
 
 	//helpers
 	void addToSpentAndCheckIfOverSpent(const double& amount);

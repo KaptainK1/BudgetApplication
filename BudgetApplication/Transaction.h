@@ -2,13 +2,13 @@
 #include <string>
 #include <ctime>
 #include "Date.h"
+#include "TransactionTable.h"
 
-//static id to hold how many transactions have been created
-static int TOTAL_ID;
 
 class Transaction {
 	//members
 private:
+	TransactionTable* table;
 	std::string transactionTitle;
 	Date date;
 	bool isCredit;
@@ -17,8 +17,9 @@ private:
 public:
 
 	//constructors
+	~Transaction();
 	Transaction();
-	Transaction(std::string title, Date& date, bool isCredit, double amount);
+	Transaction(std::string title, Date& date, bool isCredit, double amount, TransactionTable* t);
 
 	//getters
 	std::string getTransactionTitle() const;

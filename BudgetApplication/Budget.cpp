@@ -111,14 +111,14 @@ void Budget::createCategories() {
 }
 
 //method to add a category to the categories vector
-void Budget::addCategory(const Category& category) {
+void Budget::addCategory( Category& category) {
 	categories.push_back(category);
 }
 
 //method to add a transaction to the transaction vector for the referenced category class
-void Budget::addTransaction(Category& category, std::string& name, Date& date, bool& isCredit, double& amount) {
+void Budget::addTransaction(Category& category, std::string& name, Date& date, bool& isCredit, double& amount, TransactionTable* t) {
 
-	Transaction transaction(name, date, isCredit, amount);
+	Transaction transaction(name, date, isCredit, amount, t);
 	category.addTransaction(transaction);
 
 	//add the transaction amount to the total spent budget variable. 

@@ -84,10 +84,11 @@ int main()
 	cout << date1 << endl;
 	cout << date2 << endl;
 	UserTable* db = new UserTable("localhost", "root", "password", "budget_application_db", 3306);
+	TransactionTable* tdb = new TransactionTable("localhost", "root", "password", "budget_application_db", 3306);
 	Budget dylBudget;
 	User mainUser("Dylan", "password", dylBudget, db );
 	User user;
-	Transaction t("test",date1,false,25.00);
+	Transaction t("test",date1,false,25.00, tdb);
 	user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
 	user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
 	user.getBudget().printCategories();
