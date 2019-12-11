@@ -32,6 +32,7 @@ public:
 	//default constructor
 	//initializes to local current date
 	Date();
+	Date(std::string s);
 
 	//sets the date to the passed in value
 	Date(int year, int month, int day);

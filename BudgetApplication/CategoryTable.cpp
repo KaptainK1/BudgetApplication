@@ -1,8 +1,4 @@
-#include <mysql.h>
-#include <string>
 #include"CategoryTable.h"
-#include <iostream>
-
 
 CategoryTable::CategoryTable()
 	: Database("localhost", "root", "password", "budget_application_db", 3306)
@@ -74,3 +70,4 @@ void CategoryTable::select() {
 std::string CategoryTable::getTableName() const {
 	return table_name;
 }
+

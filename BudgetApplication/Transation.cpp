@@ -1,10 +1,4 @@
 #include "Transaction.h"
-#include "Date.h"
-#include <limits.h>
-#include <float.h>
-#include <stdexcept>
-#include <string>
-#include <iostream>
 
 Transaction::~Transaction() {
 	delete table;
@@ -33,6 +27,16 @@ Transaction::Transaction(std::string title, Date& date, bool isCredit, double am
 	setDate(date);
 	setIsCredit(isCredit);
 	//setID(++TOTAL_ID);
+
+}
+
+Transaction::Transaction(int id, std::string title, Date& date, bool isCredit, double amount) {
+	table = new TransactionTable;
+	setTransactionAmount(amount);
+	setTransactionTitle(title);
+	setDate(date);
+	setIsCredit(isCredit);
+	setID(id);
 
 }
 

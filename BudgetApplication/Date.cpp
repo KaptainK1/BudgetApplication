@@ -1,6 +1,7 @@
 #include "Date.h"
 #include <ctime>
 #include <iostream>
+#include <cstdio>
 
  Date::Date() {
 	 //create a time object and set to now
@@ -19,6 +20,22 @@
  Date::Date(int year, int month, int day) {
 	 setYear(year);
 	 setMonth(month);
+	 setDay(day);
+ }
+
+ //constructor to take in a string value and covert to date
+ //String should be in int/int/int format
+ //the format is YYYY-MM-DD as this is the format for MySQL
+ Date::Date(std::string s) {
+
+	 int year = 0;
+	 int month = 0;
+	 int day = 0;
+
+	 sscanf_s(s.c_str(), "%d/%d/%d", &year, &month, &day);
+
+	 setYear(year);
+	 setMonth(month-1);
 	 setDay(day);
  }
 

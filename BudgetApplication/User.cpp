@@ -1,12 +1,4 @@
-#include <limits.h>
-#include <float.h>
-#include <stdexcept>
-#include <string>
-#include <iostream>
-#include "Budget.h"
 #include "User.h"
-#include <mysql.h>
-#include "UserTable.h"
 
 User::~User() {
 	delete table;

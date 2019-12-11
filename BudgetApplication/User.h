@@ -3,6 +3,10 @@
 #include <string>
 #include <mysql.h>
 #include "UserTable.h"
+#include <limits.h>
+#include <float.h>
+#include <stdexcept>
+#include <iostream>
 
 class User {
 

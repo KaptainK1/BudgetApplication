@@ -2,6 +2,8 @@
 #include <mysql.h>
 #include "Database.h"
 #include <string>
+#include <vector>
+#include <iostream>
 
 //static int variable to hold the current ID for the user database
 static int CATEGORY_CURRENT_ID = 0;

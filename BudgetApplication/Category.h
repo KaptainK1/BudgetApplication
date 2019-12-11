@@ -3,6 +3,10 @@
 #include "Transaction.h"
 #include <vector>
 #include "CategoryTable.h"
+#include <iostream>
+#include <limits.h>
+#include <float.h>
+#include <stdexcept>
 
 //static list of categories
 const static std::string CATEGORY_NAMES[9] = { "Auto/Transport", "Utilities", "Education" , "Entertainment", "Food/Dining", 
@@ -47,6 +51,8 @@ public:
 	void addToSpentAndCheckIfOverSpent(const double& amount);
 	void addTransaction(Transaction& t);
 	void printTransactions();
+	std::vector<Transaction> initTransactions(int userID);
+	std::vector<Category> initCategories(int userID);
 
 	//overload the ostream operator
 	friend std::ostream& operator << (std::ostream&, const Category&);

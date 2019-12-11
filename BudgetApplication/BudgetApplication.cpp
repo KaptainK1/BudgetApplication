@@ -78,22 +78,27 @@ int main()
 	
 	Date date1;
 	Date date2(2001, 1, 27);
+	Date stringDate("2019/12/10");
+
+	cout << stringDate;
+
 	
-	bool test = date1 > date2;
-	cout << test << endl;
-	cout << date1 << endl;
-	cout << date2 << endl;
-	UserTable* db = new UserTable("localhost", "root", "password", "budget_application_db", 3306);
-	TransactionTable* tdb = new TransactionTable("localhost", "root", "password", "budget_application_db", 3306);
-	Budget dylBudget;
-	User mainUser("Dylan", "password", dylBudget, db );
-	User user;
-	Transaction t("test",date1,false,25.00, tdb);
-	user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
-	user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
-	user.getBudget().printCategories();
-	cout << user.getBudget().getTotalSpent();
-	
+	/*
+		bool test = date1 > date2;
+		cout << test << endl;
+		cout << date1 << endl;
+		cout << date2 << endl;
+		UserTable* db = new UserTable("localhost", "root", "password", "budget_application_db", 3306);
+		TransactionTable* tdb = new TransactionTable("localhost", "root", "password", "budget_application_db", 3306);
+		Budget dylBudget;
+		User mainUser("Dylan", "password", dylBudget, db );
+		User user;
+		Transaction t("test",date1,false,25.00, tdb);
+		user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
+		user.getBudget().addTransaction(user.getBudget().getCategory(0), t);
+		user.getBudget().printCategories();
+		cout << user.getBudget().getTotalSpent();
+	*/
 
 	return 0;
 }
