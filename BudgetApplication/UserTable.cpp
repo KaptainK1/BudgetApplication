@@ -81,3 +81,37 @@ void UserTable::select() {
 std::string UserTable::getTableName() const{
 	return table_name;
 }
+
+
+std::string UserTable::getPassword(std::string username) {
+
+	std::string password = "";
+	int qstate = 0;
+	MYSQL* connection;
+
+	connection = mysql_init(0);
+	connection = getConnection();
+
+	MYSQL_ROW row;
+	MYSQL_RES* res;
+	std::string query = "Select password from Users WHERE username = " + username;
+	const char* q = query.c_str();
+	qstate = mysql_query(connection, q);
+
+	//using c syntax
+	if (!qstate)
+	{
+		res = mysql_store_result(connection);
+		while (row = mysql_fetch_row(res)) {
+			password = row[0];
+		}
+	}
+
+	else {
+		std::cout << "Query failed: " << mysql_error(connection) << std::endl;
+	}
+
+	mysql_close(connection);
+	return password;
+
+}

@@ -6,6 +6,16 @@ Category::~Category() {
 	delete table;
 }
 
+
+Category::Category(int id, std::string name, double limit, double spent) {
+	table = new CategoryTable;
+	setID(id);
+	std::vector<Transaction> transactions;
+	setName(name);
+	setLimit(limit);
+	setSpent(spent);
+}
+
 //default constructor
 Category::Category() {
 	table = new CategoryTable;
@@ -51,6 +61,12 @@ Category::Category(std::string name, double limit, double spent, std::vector<Tra
 }
 
 //getters
+
+
+CategoryTable* Category::getTable() {
+	return table;
+}
+
 std::string Category::getName() const{
 	return name;
 }
@@ -165,60 +181,4 @@ void Category::setID(int id) {
 
 int Category::getID() const {
 	return id;
-}
-
-std::vector<Transaction> Category::initTransactions(int userID) {
-
-	std::vector<Transaction> transactions;
-	int qstate = 0;
-	MYSQL* connection;
-
-	connection = mysql_init(0);
-	connection = table->getConnection();
-
-	MYSQL_ROW row;
-	MYSQL_RES* res;
-	//use a stringstream to concate multpile lines
-	std::stringstream ss;
-	ss << "Select ID, TITLE, AMOUNT, PURCHASE_DATE, ISCREDIT from Transactions WHERE USER_ID = " << userID << "  AND CATEGORY_ID = " << this->getID();
-	std::string query = ss.str();
-	const char* q = query.c_str();
-	qstate = mysql_query(connection, q);
-
-	//using c syntax
-	if (!qstate)
-	{
-		res = mysql_store_result(connection);
-		while (row = mysql_fetch_row(res)) {
-			//create a new date object and pass in the string that MySQL returns for the date
-			Date date(row[3]);
-			//create a new transaction class and set it to the values returned
-			Transaction t(atoi(row[0]), row[1], date, row[2], atof(row[2]));
-			//add the transaction to the transactions vector
-			transactions.push_back(t);
-			//add the amount to the category
-			this->addToSpentAndCheckIfOverSpent(atof(row[2]));
-			//print
-			std::cout << t;
-		}
-	}
-
-	else {
-		std::cout << "Query failed: " << mysql_error(connection) << std::endl;
-	}
-
-	mysql_close(connection);
-	return transactions;
-
-}
-
-
-std::vector<Category> Category::initCategories(int userID) {
-
-	std::vector<Category> categories;
-
-
-
-
-	return categories;
 }

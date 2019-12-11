@@ -4,6 +4,7 @@
 #include "Category.h"
 #include "Transaction.h"
 #include "Date.h"
+#include <sstream>
 
 class Budget {
 
@@ -41,5 +42,9 @@ public:
 	void addToSpentAndCheckIfOverSpent(const double& amount);
 	void createCategories();
 	void printCategories();
+
+	std::vector<Transaction> initTransactions(int userID, Category& category);
+	std::vector<Category> initCategories(int userID);
+
 	Category& getCategory(int index);
 };

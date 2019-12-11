@@ -28,6 +28,7 @@ public:
 	~Category();
 	Category();
 	Category(std::string name, double limit, double spent, std::vector<Transaction> transactions, CategoryTable* t);
+	Category(int id, std::string name, double limit, double spent);
 	Category(std::string name);
 
 	//getters
@@ -37,6 +38,7 @@ public:
 	std::vector<Transaction> getTransactions() const;
 	bool getIsOverSpent() const;
 	int getID() const;
+	CategoryTable* getTable();
 
 	//setters
 	void setIsOverSpent();
@@ -51,8 +53,6 @@ public:
 	void addToSpentAndCheckIfOverSpent(const double& amount);
 	void addTransaction(Transaction& t);
 	void printTransactions();
-	std::vector<Transaction> initTransactions(int userID);
-	std::vector<Category> initCategories(int userID);
 
 	//overload the ostream operator
 	friend std::ostream& operator << (std::ostream&, const Category&);

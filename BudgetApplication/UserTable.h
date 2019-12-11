@@ -18,4 +18,5 @@ public:
 	virtual void createTableIfNotExists();
 	virtual void select();
 	std::string getTableName() const;
+	std::string getPassword(std::string username) const;
 };
