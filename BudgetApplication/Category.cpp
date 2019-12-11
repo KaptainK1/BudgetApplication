@@ -3,7 +3,7 @@
 
 
 Category::~Category() {
-	delete table;
+	//delete table;
 }
 
 

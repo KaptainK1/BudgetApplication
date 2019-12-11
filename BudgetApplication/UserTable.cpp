@@ -3,6 +3,7 @@
 #include"UserTable.h"
 #include "Database.h"
 #include <iostream>
+#include <sstream>
 
 UserTable::UserTable()
 	: Database("localhost", "root", "password", "budget_application_db", 3306)
@@ -83,7 +84,7 @@ std::string UserTable::getTableName() const{
 }
 
 
-std::string UserTable::getPassword(std::string username) {
+std::string UserTable::getPassword(std::string username){
 
 	std::string password = "";
 	int qstate = 0;
@@ -94,7 +95,9 @@ std::string UserTable::getPassword(std::string username) {
 
 	MYSQL_ROW row;
 	MYSQL_RES* res;
-	std::string query = "Select password from Users WHERE username = " + username;
+	std::stringstream ss;
+	ss << "Select password from Users WHERE username = " << '"' << username << '"';
+	std::string query = ss.str();
 	const char* q = query.c_str();
 	qstate = mysql_query(connection, q);
 

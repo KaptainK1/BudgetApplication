@@ -1,7 +1,7 @@
 #include "User.h"
 
 User::~User() {
-	delete table;
+	//delete table;
 }
 
 //default constructor
@@ -83,4 +83,42 @@ void User::setID(int id) {
 
 int User::getID() const {
 	return id;
+}
+
+User User::getUser(std::string username) {
+
+	std::string password = "";
+	int qstate = 0;
+	MYSQL* connection;
+	User user;
+
+	connection = mysql_init(0);
+	connection = table->getConnection();
+
+	MYSQL_ROW row;
+	MYSQL_RES* res;
+	std::stringstream ss;
+	ss << "Select password from Users WHERE username = " << '"' << username << '"';
+	std::string query = ss.str();
+	const char* q = query.c_str();
+	qstate = mysql_query(connection, q);
+
+	//using c syntax
+	if (!qstate)
+	{
+		res = mysql_store_result(connection);
+		while (row = mysql_fetch_row(res)) {
+			User foundUser(atoi(row[0]), row[1], row[2], atof(row[3]), atof(row[4]), this->table);
+			user = foundUser;
+		}
+	}
+
+	else {
+		std::cout << "Query failed: " << mysql_error(connection) << std::endl;
+	}
+
+	mysql_close(connection);
+	return user;
+
+
 }

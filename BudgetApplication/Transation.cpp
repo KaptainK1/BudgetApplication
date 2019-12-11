@@ -1,7 +1,7 @@
 #include "Transaction.h"
 
 Transaction::~Transaction() {
-	delete table;
+	//delete table;
 }
 
 //default constructor

@@ -36,13 +36,15 @@ int main()
 		cout << user.getBudget().getTotalSpent();
 	*/
 
-	Database* db = new UserTable("localhost", "root", "password", "budget_application_db", 3306);
-	Database* dbC = new CategoryTable("localhost", "root", "password", "budget_application_db", 3306);
-	Database* dbT = new TransactionTable("localhost", "root", "password", "budget_application_db", 3306);
-	db->createTableIfNotExists();
-	dbC->createTableIfNotExists();
-	dbT->createTableIfNotExists();
+	//Database Setup
+	UserTable* userDB = new UserTable("localhost", "root", "password", "budget_application_db", 3306);
+	CategoryTable* categoryDB = new CategoryTable("localhost", "root", "password", "budget_application_db", 3306);
+	TransactionTable* TransactionDB = new TransactionTable("localhost", "root", "password", "budget_application_db", 3306);
+	userDB->createTableIfNotExists();
+	categoryDB->createTableIfNotExists();
+	TransactionDB->createTableIfNotExists();
 
+	User user;
 	string username = "";
 	string password = "";
 	string actualPassword = "";
@@ -52,10 +54,36 @@ int main()
 	cout << "Please enter your username" << endl;
 	getline(cin, username);
 
-
+	actualPassword = userDB->getPassword(username);
 
 	cout << "Please enter your password" << endl;
 	getline(cin, password);
+	
+	while (cin.fail() || password != actualPassword)
+	{
+		cout << "login failed, please enter username and password again " << endl;
+		cout << "Please enter your username" << endl;
+		getline(cin, username);
+
+		actualPassword = userDB->getPassword(username);
+
+		cout << "Please enter your password" << endl;
+		getline(cin, password);
+
+	}
+
+	user = user.getUser(username);
+	user.getBudget().initCategories(user.getID());
+	user.getBudget().printCategories();
+
+	cout << "Menu: enter your choice of what you want to do! " << endl;
+	cout << "1: Print Categories and Transactions" << endl;
+	cout << "2: Add Transaction" << endl;
+	cout << "3: Adjust overall budget values" << endl;
+	cout << "4: Adjust Categoy limit values" << endl;
+	cout << "0: Exit" << endl;
+
+
 
 
 

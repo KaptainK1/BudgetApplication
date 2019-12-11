@@ -32,7 +32,7 @@
 	 int month = 0;
 	 int day = 0;
 
-	 sscanf_s(s.c_str(), "%d/%d/%d", &year, &month, &day);
+	 sscanf_s(s.c_str(), "%d-%d-%d", &year, &month, &day);
 
 	 setYear(year);
 	 setMonth(month-1);
