@@ -33,3 +33,19 @@ CATEGORY_ID int not null,
 foreign key (USER_ID) references USERS(ID),
 foreign key (CATEGORY_ID) references CATEGORYS(ID)
 );
+
+insert into USERS values (1, "Dylan", "password", 3000, 0);
+
+insert into Categorys values(1, "Auto/Transport", 0, 200, 1);
+insert into Categorys values(2, "Utilities", 0, 300, 1);
+insert into Categorys values(3, "Education", 0, 500, 1);
+insert into Categorys values(4, "Entertainment", 0, 100, 1);
+insert into Categorys values(5, "Food/Dining", 0, 400, 1);
+insert into Categorys values(6, "Shopping", 0, 100, 1);
+insert into Categorys values(7, "Travel/Vacation", 0, 100, 1);
+insert into Categorys values(8, "Home", 0, 1200, 1);
+insert into Categorys values(9, "Personal Care", 0, 100, 1);
+
+insert into Transactions values(1,"mortgage" ,1100, "2019/12/01", false, 1, 8);
+insert into Transactions values(2,"gas" ,1100, "2019/12/11", false, 1, 1);
+insert into Transactions values(3,"Water" ,60, "2019/12/05", false, 1, 2);
