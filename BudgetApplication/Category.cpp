@@ -136,7 +136,7 @@ void Category::addToSpentAndCheckIfOverSpent(const double& amount) {
 		setIsOverSpent();
 	}
 	else {
-		std::invalid_argument("amount must be greater than 0 and less than the max " + std::to_string(DBL_MAX));
+		throw std::invalid_argument("amount must be greater than 0 and less than the max " + std::to_string(DBL_MAX));
 	}
 
 }

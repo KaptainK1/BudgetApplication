@@ -14,6 +14,17 @@ BUDGET_SPENT decimal(10,2) not null
 );
 
 create table CATEGORYS(
+use budget_application_db;
+
+create table USERS(
+ID int primary key,
+USERNAME varchar(50) not null,
+PASSWORD varchar(50) not null,
+BUDGET_LIMIT decimal(10,2) not null,
+BUDGET_SPENT decimal(10,2) not null
+);
+
+create table CATEGORYS(
 ID int primary key,
 TITLE varchar(100) not null,
 AMOUNT_SPENT decimal(10,2) not null,
@@ -34,18 +45,33 @@ foreign key (USER_ID) references USERS(ID),
 foreign key (CATEGORY_ID) references CATEGORYS(ID)
 );
 
-insert into USERS values (1, "Dylan", "password", 3000, 0);
+insert into USERS values (1, "Demo", "password", 3000, 0);
 
-insert into Categorys values(1, "Auto/Transport", 0, 200, 1);
-insert into Categorys values(2, "Utilities", 0, 300, 1);
+insert into Categorys values(1, "Auto/Transport", 50, 200, 1);
+insert into Categorys values(2, "Utilities", 60, 300, 1);
 insert into Categorys values(3, "Education", 0, 500, 1);
 insert into Categorys values(4, "Entertainment", 0, 100, 1);
 insert into Categorys values(5, "Food/Dining", 0, 400, 1);
 insert into Categorys values(6, "Shopping", 0, 100, 1);
 insert into Categorys values(7, "Travel/Vacation", 0, 100, 1);
-insert into Categorys values(8, "Home", 0, 1200, 1);
+insert into Categorys values(8, "Home", 1100, 1200, 1);
 insert into Categorys values(9, "Personal Care", 0, 100, 1);
 
 insert into Transactions values(1,"mortgage" ,1100, "2019/12/01", false, 1, 8);
-insert into Transactions values(2,"gas" ,1100, "2019/12/11", false, 1, 1);
+insert into Transactions values(2,"gas" ,50, "2019/12/11", false, 1, 1);
 insert into Transactions values(3,"Water" ,60, "2019/12/05", false, 1, 2);
+
+
+select * from users;
+select * from categorys;
+select * from transactions;
+
+delete from categorys where id > 0;
+
+drop table TRANSACTIONS;
+drop table CATEGORYS;
+drop table USERS;
+
+describe Users;
+describe Categorys;
+describe TRANSACTIONS;
