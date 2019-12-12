@@ -119,7 +119,8 @@ int menuChoice(int& choice, User& user) {
 		adjustCategory(user);
 		return 0;
 		break;
-
+	default:
+		return -1;
 	}
 }
 
@@ -133,6 +134,7 @@ void categoryChoice(User& user) {
 	cout << "Select Category: ";
 	for (Category category : user.getBudget().getCategories()) {
 		std::cout<< i << ": " << category.getName();
+		cout << endl;
 		i++;
 	}
 
@@ -188,6 +190,16 @@ void categoryChoice(User& user) {
 
 	cin.clear();
 	cin.ignore(2000, '\n');
+
+	try
+	{
+		Date date(strDate);
+		userDate = date;
+	}
+	catch (const std::exception&)
+	{
+		cout << "Error with Date, please enter in YYYY-MM-DD format" << endl;
+	}
 
 	//create a new transaction
 	Transaction t(title, userDate, false, amount, user.getTransactionTable());

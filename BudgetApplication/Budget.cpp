@@ -77,7 +77,7 @@ void Budget::setIsAtOrUnderBudget(const bool& isAtOrUnderBudget) {
 
 //set the total limit if the value is greater than 0 and less than the max value of a double
 void Budget::setTotalLimit(const double& limit) {
-	if (limit > 0 && limit < DBL_MAX)
+	if (limit >= 0.00 && limit < DBL_MAX)
 	{
 		totalLimit = limit;
 	}
@@ -88,7 +88,7 @@ void Budget::setTotalLimit(const double& limit) {
 
 //set the total spent if the value is greater than 0 and less than the max value of a double
 void Budget::setTotalSpent(const double& spent) {
-	if (spent > 0 && spent < DBL_MAX)
+	if (spent >= 0.00 && spent < DBL_MAX)
 	{
 		totalSpent = spent;
 	}
@@ -184,6 +184,20 @@ void Budget::addToSpentAndCheckIfOverSpent(const double& amount) {
 
 std::vector<Transaction> Budget::initTransactions(int userID, Category& category) {
 
+	Date thisMonth;
+	int year = thisMonth.getYear();
+	int month = thisMonth.getMonth();
+	int day = 1;
+
+	if (month == 11)
+	{
+		year++;
+		month = (month + 1) % 11;
+	}
+
+	Date nextMonth(year, month, day);
+	thisMonth.setDay(1);
+
 	std::vector<Transaction> transactions;
 	int qstate = 0;
 	MYSQL* connection;
@@ -195,7 +209,8 @@ std::vector<Transaction> Budget::initTransactions(int userID, Category& category
 	MYSQL_RES* res;
 	//use a stringstream to concate multpile lines
 	std::stringstream ss;
-	ss << "Select ID, TITLE, AMOUNT, PURCHASE_DATE, ISCREDIT from Transactions WHERE USER_ID = " << userID << "  AND CATEGORY_ID = " << category.getID();
+	ss << "Select ID, TITLE, AMOUNT, PURCHASE_DATE, ISCREDIT from Transactions WHERE USER_ID = " << userID << "  AND CATEGORY_ID = " << category.getID() <<
+		" AND ( PURCHASE_DATE >= \"" << thisMonth << '"' << " AND PURCHASE_DATE <= \"" << nextMonth << "\" )";
 	std::string query = ss.str();
 	const char* q = query.c_str();
 	qstate = mysql_query(connection, q);
@@ -255,7 +270,6 @@ std::vector<Category> Budget::initCategories( int userID) {
 
 			//create a new category based on the query results
 			Category category(atoi(row[0]), row[1], atof(row[3]), atof(row[2]));
-
 
 			//add the transactions for the category
 			category.setTransactions (this->initTransactions(userID, category));

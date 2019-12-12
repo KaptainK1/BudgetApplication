@@ -131,7 +131,7 @@ void Category::setIsOverSpent(const bool& isOverSpent) {
 void Category::addToSpentAndCheckIfOverSpent(const double& amount) {
 
 	//check to ensure amount is within acceptable range
-	if (amount > 0 && amount < DBL_MAX) {
+	if (amount >= 0.00 && amount < DBL_MAX) {
 		spent += amount;
 		setIsOverSpent();
 	}

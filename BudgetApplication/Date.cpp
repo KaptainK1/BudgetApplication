@@ -121,7 +121,7 @@
  }
 
  //overloaded operator for =
- bool Date::operator = (const Date& date) {
+ bool Date::operator == (const Date& date) {
 
 	 if (getYear() == date.year && getMonth() == date.month && getDay() == date.day) {
 		 return true;
@@ -131,6 +131,18 @@
 
  }
 
+ /*
+ Date Date::operator = (const Date& date) {
+
+	 Date temp;
+	 temp.setYear(date.getYear());
+	 temp.setMonth(date.getMonth());
+	 temp.setDay(date.getDay());
+ 
+	 return temp;
+ 
+ }
+ */
  //overloaded cout operator
  std::ostream& operator << (std::ostream& stream, const Date& date) {
 

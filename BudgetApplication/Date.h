@@ -38,8 +38,9 @@ public:
 	Date(int year, int month, int day);
 
 	//overload the comparsion operators
+	//Date operator = (const Date& date);
 	bool operator < (const Date& date);
 	bool operator > (const Date& date);
-	bool operator = (const Date& date);
+	bool operator == (const Date& date);
 	friend std::ostream& operator << (std::ostream&, const Date&);
 };
