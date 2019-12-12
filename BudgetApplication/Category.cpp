@@ -32,8 +32,8 @@ Category::Category() {
 }
 
 //constructor that only takes the name
-Category::Category(std::string name) {
-	table = new CategoryTable;
+Category::Category(std::string name, CategoryTable* t) {
+	table = t;
 	table->setCurrentID(CATEGORY_CURRENT_ID, table->getTableName());
 	setID(CATEGORY_CURRENT_ID);
 

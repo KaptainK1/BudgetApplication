@@ -8,7 +8,7 @@
 UserTable::UserTable()
 	: Database("localhost", "root", "password", "budget_application_db", 3306)
 {
-	std::cout << "UserTable default constructor called!"<< std::endl;
+	//std::cout << "UserTable default constructor called!"<< std::endl;
 	//CURRENT_ID++;
 }
 
@@ -17,7 +17,7 @@ UserTable::UserTable(std::string db_host = "localhost", std::string db_user = "r
 	: Database(db_host, db_user, db_password, db_schema, port) 
 
 {
-	std::cout << "UserTable constructor called!" << std::endl;
+	//std::cout << "UserTable constructor called!" << std::endl;
 	//CURRENT_ID++;
 }
 

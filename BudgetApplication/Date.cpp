@@ -134,7 +134,8 @@
  //overloaded cout operator
  std::ostream& operator << (std::ostream& stream, const Date& date) {
 
-	 stream << date.month+1 << "/" << date.day << "/" << date.year;
+	 stream << date.year << "-" << date.month + 1 << "-" << date.day;
+//	 stream << date.month+1 << "/" << date.day << "/" << date.year;
 	 return stream;
 
  }

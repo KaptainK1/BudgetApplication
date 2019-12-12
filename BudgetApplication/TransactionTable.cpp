@@ -6,7 +6,7 @@
 TransactionTable::TransactionTable()
 	: Database("localhost", "root", "password", "budget_application_db", 3306)
 {
-	std::cout << "UserTable default constructor called!" << std::endl;
+	//std::cout << "TransactionTable default constructor called!" << std::endl;
 }
 
 TransactionTable::TransactionTable(std::string db_host, std::string db_user, std::string db_password, std::string db_schema, int port) :

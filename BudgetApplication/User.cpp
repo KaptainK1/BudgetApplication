@@ -14,6 +14,21 @@ User::User() {
 	password = "test";
 }
 
+User::User(TransactionTable* ttable,UserTable* t, CategoryTable* ct) {
+	table = t;
+	transactionTable = ttable;
+
+	table->setCurrentID(USER_CURRENT_ID, table->getTableName());
+	setID(USER_CURRENT_ID);
+
+	transactionTable->setCurrentID(TRANSACTION_CURRENT_ID, table->getTableName());
+	setID(TRANSACTION_CURRENT_ID);
+
+	Budget budget(10000.00,0.00, ct);
+	username = "test";
+	password = "test";
+}
+
 //full argument constructor
 User::User(std::string username, std::string password, Budget& budget, UserTable* t) {
 	table = t;
@@ -24,12 +39,22 @@ User::User(std::string username, std::string password, Budget& budget, UserTable
 	setBudget(budget);
 }
 
-User::User(int id, std::string username, std::string password, double totalLimit, double totalSpent, UserTable* t) {
+User::User(int id, std::string username, std::string password, double totalLimit, double totalSpent, UserTable* t, CategoryTable* ct) {
 	table = t;
 	setID(id);
 	setUsername(username);
 	setPassword(password);
-	Budget budget(totalLimit, totalSpent);
+	Budget budget(totalLimit, totalSpent, ct);
+
+}
+
+User::User(int id, std::string username, std::string password, double totalLimit, double totalSpent, TransactionTable* ttable, UserTable* t, CategoryTable* ct) {
+	table = t;
+	transactionTable = ttable;
+	setID(id);
+	setUsername(username);
+	setPassword(password);
+	Budget budget(totalLimit, totalSpent, ct);
 
 }
 
@@ -44,6 +69,10 @@ std::string User::getPassword() const{
 
 Budget& User::getBudget() {
 	return budget;
+}
+
+TransactionTable* User::getTransactionTable() {
+	return transactionTable;
 }
 
 //setters
@@ -85,20 +114,20 @@ int User::getID() const {
 	return id;
 }
 
-User User::getUser(std::string username) {
+User User::getUser(std::string username,TransactionTable* ttable, UserTable* userTable, CategoryTable* t) {
 
 	std::string password = "";
 	int qstate = 0;
 	MYSQL* connection;
-	User user;
+	User user(ttable,userTable,t);
 
 	connection = mysql_init(0);
-	connection = table->getConnection();
+	connection = t->getConnection();
 
 	MYSQL_ROW row;
 	MYSQL_RES* res;
 	std::stringstream ss;
-	ss << "Select password from Users WHERE username = " << '"' << username << '"';
+	ss << "Select * from Users WHERE username = " << '"' << username << '"';
 	std::string query = ss.str();
 	const char* q = query.c_str();
 	qstate = mysql_query(connection, q);
@@ -108,7 +137,7 @@ User User::getUser(std::string username) {
 	{
 		res = mysql_store_result(connection);
 		while (row = mysql_fetch_row(res)) {
-			User foundUser(atoi(row[0]), row[1], row[2], atof(row[3]), atof(row[4]), this->table);
+			User foundUser(atoi(row[0]), row[1], row[2], atof(row[3]), atof(row[4]), ttable, userTable, t);
 			user = foundUser;
 		}
 	}

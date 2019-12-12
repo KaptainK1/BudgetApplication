@@ -19,12 +19,12 @@ public:
 	//constructors
 	Budget();
 	Budget(double limit, std::vector<Category> categories, double spent);
-	Budget(double limit, double spent);
+	Budget(double limit, double spent, CategoryTable* t);
 
 	//getters
 	double getTotalLimit();
 	double getTotalSpent();
-	std::vector<Category> getCategories();
+	std::vector<Category>& getCategories();
 	bool getIsAtOrUnderBudget();
 	double calculateAmountSpent();
 
@@ -40,11 +40,14 @@ public:
 	void addTransaction(Category& category, std::string& name, Date& date, bool& isCredit, double& amount, TransactionTable* t);
 	void addTransaction(Category& category, Transaction& t);
 	void addToSpentAndCheckIfOverSpent(const double& amount);
-	void createCategories();
+	void addTransactionToDatabase(Category& category, Transaction& transaction, int userID);
+
+	//void createCategories();
+	void createCategories(CategoryTable* t);
 	void printCategories();
 
 	std::vector<Transaction> initTransactions(int userID, Category& category);
-	std::vector<Category> initCategories(int userID);
+	std::vector<Category> initCategories( int userID);
 
 	Category& getCategory(int index);
 };

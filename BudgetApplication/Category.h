@@ -29,7 +29,7 @@ public:
 	Category();
 	Category(std::string name, double limit, double spent, std::vector<Transaction> transactions, CategoryTable* t);
 	Category(int id, std::string name, double limit, double spent);
-	Category(std::string name);
+	Category(std::string name, CategoryTable* t);
 
 	//getters
 	std::string getName() const;

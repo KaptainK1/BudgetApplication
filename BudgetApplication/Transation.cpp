@@ -8,25 +8,23 @@ Transaction::~Transaction() {
 Transaction::Transaction() {
 	table = new TransactionTable;
 	table->setCurrentID(TRANSACTION_CURRENT_ID, table->getTableName());
-	setID(TRANSACTION_CURRENT_ID);
+	setID(TRANSACTION_CURRENT_ID+1);
 	Date date;
 	setTransactionTitle("Transaction");
 	setDate( date );
 	setIsCredit(false);
 	setTransactionAmount(0.00);
-	//setID(++TOTAL_ID);
 }
 
 //all argument constructor
 Transaction::Transaction(std::string title, Date& date, bool isCredit, double amount, TransactionTable* t) {
 	table = t;
 	table->setCurrentID(TRANSACTION_CURRENT_ID, table->getTableName());
-	setID(TRANSACTION_CURRENT_ID);
+	setID(TRANSACTION_CURRENT_ID+1);
 	setTransactionAmount(amount);
 	setTransactionTitle(title);
 	setDate(date);
 	setIsCredit(isCredit);
-	//setID(++TOTAL_ID);
 
 }
 

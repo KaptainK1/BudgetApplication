@@ -9,11 +9,11 @@
 
 //default constructor
 Budget::Budget() {
-
+	CategoryTable* t = new CategoryTable;
 	setIsAtOrUnderBudget(true);
 	setTotalLimit(10000.00);
 	setTotalSpent(0.00);
-	createCategories();
+	createCategories(t);
 
 }
 
@@ -25,10 +25,10 @@ Budget::Budget(double limit, std::vector<Category> categories, double spent) {
 	setTotalSpent(spent);
 }
 
-Budget::Budget(double limit, double spent) {
+Budget::Budget(double limit, double spent, CategoryTable* t) {
 	setTotalLimit(limit);
 	setTotalSpent(spent);
-	createCategories();
+	createCategories(t);
 }
 
 
@@ -43,7 +43,7 @@ double Budget::getTotalSpent() {
 }
 
 //get the categories as a vector
-std::vector<Category> Budget::getCategories() {
+std::vector<Category>& Budget::getCategories() {
 	return categories;
 }
 
@@ -99,11 +99,24 @@ void Budget::setTotalSpent(const double& spent) {
 
 
 //method to create all 9 default categories and add them to the categories vector
-void Budget::createCategories() {
+/*
+	void Budget::createCategories() {
+
+		for (int i = 0; i < (sizeof(CATEGORY_NAMES) / sizeof(std::string)); i++)
+		{
+			Category category(CATEGORY_NAMES[i]);
+			addCategory(category);
+
+		}
+
+	}
+*/
+//method to create all 9 default categories and add them to the categories vector
+void Budget::createCategories(CategoryTable* t) {
 
 	for (int i = 0; i < (sizeof(CATEGORY_NAMES) / sizeof(std::string)); i++)
 	{
-		Category category(CATEGORY_NAMES[i]);
+		Category category(CATEGORY_NAMES[i], t);
 		addCategory(category);
 
 	}
@@ -200,8 +213,7 @@ std::vector<Transaction> Budget::initTransactions(int userID, Category& category
 			transactions.push_back(t);
 			//add the amount to the category
 			this->addToSpentAndCheckIfOverSpent(atof(row[2]));
-			//print
-			std::cout << t;
+			
 		}
 	}
 
@@ -210,12 +222,13 @@ std::vector<Transaction> Budget::initTransactions(int userID, Category& category
 	}
 
 	mysql_close(connection);
+
 	return transactions;
 
 }
 
 
-std::vector<Category> Budget::initCategories(int userID) {
+std::vector<Category> Budget::initCategories( int userID) {
 
 	std::vector<Category> categories;
 
@@ -229,7 +242,7 @@ std::vector<Category> Budget::initCategories(int userID) {
 	MYSQL_RES* res;
 	//use a stringstream to concate multpile lines
 	std::stringstream ss;
-	ss << "Select ID, TITLE, AMOUNT_SPENT, AMOUNT_LIMIT from Categories WHERE USER_ID = " << userID;
+	ss << "Select ID, TITLE, AMOUNT_SPENT, AMOUNT_LIMIT from Categorys WHERE USER_ID = " << userID;
 	std::string query = ss.str();
 	const char* q = query.c_str();
 	qstate = mysql_query(connection, q);
@@ -241,17 +254,17 @@ std::vector<Category> Budget::initCategories(int userID) {
 		while (row = mysql_fetch_row(res)) {
 
 			//create a new category based on the query results
-			Category category(atoi(row[0]), row[1], atof(row[2]), atof(row[3]));
+			Category category(atoi(row[0]), row[1], atof(row[3]), atof(row[2]));
 
-			//add the categories to the categories vector
+
+			//add the transactions for the category
+			category.setTransactions (this->initTransactions(userID, category));
+
+			//add the category to the categories vector
 			categories.push_back(category);
 
 			//add the amount spent
 			this->addToSpentAndCheckIfOverSpent(category.getSpent());
-
-			//add the transactions for the category
-			this->initTransactions(userID, category);
-
 		}
 	}
 
@@ -261,6 +274,36 @@ std::vector<Category> Budget::initCategories(int userID) {
 
 	mysql_close(connection);
 
-
 	return categories;
+}
+
+void Budget::addTransactionToDatabase(Category& category, Transaction& transaction, int userID) {
+
+	int qstate = 0;
+	MYSQL* connection;
+
+	connection = mysql_init(0);
+	connection = mysql_real_connect(connection, "localhost", "root", "password", "budget_application_db", 3306, NULL, 0);
+
+	//use a stringstream to concate multpile lines
+	std::stringstream ss;
+	ss << "INSERT INTO TRANSACTIONS VALUES ( " << transaction.getID() << ", \"" << transaction.getTransactionTitle() << '"' << ", " << transaction.getTransactionAmount() <<
+		", \"" << transaction.getDate() << "\", " << transaction.getIsCredit() << ", " << userID << ", " << category.getID() << ");";
+	std::string query = ss.str();
+	const char* q = query.c_str();
+	qstate = mysql_query(connection, q);
+
+	//using c syntax
+	if (!qstate)
+	{
+		std::cout << "Insert statement executed!" << std::endl;
+	}
+
+	else {
+		std::cout << "Query failed: " << mysql_error(connection) << std::endl;
+	}
+
+	mysql_close(connection);
+
+
 }

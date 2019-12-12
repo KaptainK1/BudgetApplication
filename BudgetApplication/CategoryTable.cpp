@@ -3,7 +3,7 @@
 CategoryTable::CategoryTable()
 	: Database("localhost", "root", "password", "budget_application_db", 3306)
 {
-	std::cout << "CategoryTable default constructor called!" << std::endl;
+	//std::cout << "CategoryTable default constructor called!" << std::endl;
 }
 
 CategoryTable::CategoryTable(std::string db_host, std::string db_user, std::string db_password, std::string db_schema, int port) :
